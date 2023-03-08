@@ -33,7 +33,7 @@ public class Player {
     }
 
     private boolean validSpace(int row, int col) {
-        return (0 <= row && row < board.length) && (0 <= col && col < board.length) && board[row][col] != 0;
+        return (0 <= row && row < board.length) && (0 <= col && col < board.length) && board[row][col] == 0;
     }
 
     private void displayBoard() {
