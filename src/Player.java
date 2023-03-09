@@ -25,8 +25,12 @@ public class Player {
         int col = scanner.nextInt();
         scanner.nextLine();
 
-        if (validSpace(row + 1, col + 1)) {
-            board[row + 1][col + 1] = diceValue;
+        if (validSpace(row - 1, col - 1)) {
+            board[row - 1][col - 1] = diceValue;
+            displayBoard();
+
+            System.out.println("\nPress enter to finish turn and queue next player.");
+            scanner.nextLine();
         } else {
             takeTurn(diceValue);
         }
@@ -37,12 +41,20 @@ public class Player {
     }
 
     private void displayBoard() {
-        for (int[] row : board) {
-            System.out.println("+---+ ".repeat(board.length));
-            for (int col : row) {
+        for (int row = 0; row < board.length; row++) {
+            System.out.println("    " + "+---+ ".repeat(board.length));
+            System.out.printf("(%s) ", row + 1);
+
+            for (int col : board[row]) {
                 System.out.printf("|%2s | ", col == 0 ? " " : col);
             }
-            System.out.println("\n" + "+---+ ".repeat(board.length));
+            System.out.println("\n    " + "+---+ ".repeat(board.length));
         }
+
+        System.out.print("  ");
+        for (int col = 0; col < board.length; col++) {
+            System.out.printf("   (%s)", col + 1);
+        }
+        System.out.println();
     }
 }

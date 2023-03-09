@@ -1,4 +1,3 @@
-import java.util.Arrays;
 import java.util.Scanner;
 
 class Main {
@@ -6,7 +5,7 @@ class Main {
         Scanner scan = new Scanner(System.in);
         System.out.println("What size board would you like to play?");
         int boardSize = scan.nextInt();
-        Neighbors neighbors = new Neighbors(2, boardSize);
-        neighbors.playTurn();
+        Neighbors neighbors = new Neighbors(3, boardSize);
+        neighbors.playGame();
     }
 }
