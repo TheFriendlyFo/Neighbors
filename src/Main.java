@@ -5,7 +5,6 @@ class Main {
         Scanner scan = new Scanner(System.in);
         System.out.println("What size board would you like to play?");
         int boardSize = scan.nextInt();
-        Neighbors neighbors = new Neighbors(3, boardSize);
-        neighbors.playGame();
+        Neighbors.playGame(boardSize, 2);
     }
 }

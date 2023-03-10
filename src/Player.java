@@ -3,10 +3,12 @@ import java.util.Scanner;
 public class Player {
     private final int[][] board;
     private final Scanner scanner;
+    private final int id;
 
-    public Player(int boardSize) {
+    public Player(int boardSize, int id) {
         board = new int[boardSize][boardSize];
         scanner = new Scanner(System.in);
+        this.id = id;
     }
 
     public int[][] getBoard() {
@@ -40,21 +42,24 @@ public class Player {
         return (0 <= row && row < board.length) && (0 <= col && col < board.length) && board[row][col] == 0;
     }
 
-    private void displayBoard() {
+    public void displayBoard() {
         for (int row = 0; row < board.length; row++) {
-            System.out.println("    " + "+---+ ".repeat(board.length));
-            System.out.printf("(%s) ", row + 1);
+            System.out.println("" + "+---+ ".repeat(board.length));
 
             for (int col : board[row]) {
                 System.out.printf("|%2s | ", col == 0 ? " " : col);
             }
-            System.out.println("\n    " + "+---+ ".repeat(board.length));
+            System.out.printf("(%s)", row + 1);
+            System.out.println("\n" + "+---+ ".repeat(board.length));
         }
 
-        System.out.print("  ");
         for (int col = 0; col < board.length; col++) {
-            System.out.printf("   (%s)", col + 1);
+            System.out.printf(" (%s)  ", col + 1);
         }
         System.out.println();
+    }
+
+    public int getID() {
+        return id;
     }
 }

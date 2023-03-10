@@ -3,37 +3,37 @@ import java.util.Scanner;
 
 public class Neighbors {
     private static final Scanner scanner = new Scanner(System.in);
-    private final ArrayList<Player> players;
-    private final int boardSize;
 
-    public Neighbors(int numPlayers, int boardSize) {
-        players = new ArrayList<>();
+    private Neighbors() {}
 
+    public static void playGame(int boardSize, int numPlayers) {
+        ArrayList<Player> players = new ArrayList<>();
         for (int i = 0; i < numPlayers; i++) {
-            players.add(new Player(boardSize));
+            players.add(new Player(boardSize, i));
         }
-    }
 
-    public void playGame() {
         for (int i = 0; i < boardSize*boardSize; i++) {
-            playTurn();
+            int diceValue = rollDice();
+
+            for (Player player : players) {
+                queuePlayer(player);
+                displayRoll(diceValue);
+                player.takeTurn(diceValue);
+            }
+        }
+
+        for (Player player : players) {
+            player.displayBoard();
+            System.out.println(player.getID());
+            System.out.println(calculateColumn(player));
+            System.out.println(calculateRow(player));
         }
     }
 
-    private void playTurn() {
-        int diceValue = rollDice();
-
-        for (int i = 0; i < players.size(); i++) {
-            queuePlayer(i + 1);
-            displayRoll(diceValue);
-            players.get(i).takeTurn(diceValue);
-        }
-    }
-
-    private static void queuePlayer(int playerNum) {
+    private static void queuePlayer(Player player) {
         System.out.print("\n".repeat(40));
         System.out.println("}------------------------------------------{");
-        System.out.printf("|         Game queued for player %s         |\n", playerNum);
+        System.out.printf("|         Game queued for player %s         |\n", player.getID() + 1);
         System.out.println("|          Press enter to continue         |");
         System.out.println("}------------------------------------------{");
         scanner.nextLine();
