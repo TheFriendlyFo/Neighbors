@@ -1,9 +1,10 @@
 import java.util.Scanner;
 
-public class Player {
+public class Player implements Comparable{
     private final int[][] board;
     private final Scanner scanner;
     private final int id;
+    private int score;
 
     public Player(int boardSize, int id) {
         board = new int[boardSize][boardSize];
@@ -11,8 +12,8 @@ public class Player {
         this.id = id;
     }
 
-    public int[][] getBoard() {
-        return board;
+    public void calcScore() {
+        score = calculateCol() + calculateRow();
     }
 
     public void takeTurn(int diceValue) {
@@ -32,7 +33,7 @@ public class Player {
             displayBoard();
 
             System.out.println("\nPress enter to finish turn and queue next player.");
-            scanner.nextLine();
+
         } else {
             takeTurn(diceValue);
         }
@@ -61,5 +62,57 @@ public class Player {
 
     public int getID() {
         return id;
+    }
+
+    @Override
+    public int compareTo(Comparable compare, int sortType) {
+        Player comp = (Player) compare;
+        if (score != comp.score) return -Integer.compare(score, comp.score);
+        return Integer.compare(id, comp.id);
+    }
+
+    private int calculateRow() {
+        int current;
+        int sum = 0;
+
+        for (int row = 0, streak = 0; row < board.length; row++, streak = 0) {
+            current = board[row][0];
+            for (int col : board[row]) {
+                if (col == current) {
+                    streak++;
+                    if (streak >= 2) sum += current * (streak == 2 ? 2 : 1);
+                } else {
+                    current = col;
+                    streak = 1;
+                }
+            }
+        }
+
+        return sum;
+    }
+
+    private int calculateCol() {
+        int current;
+        int sum = 0;
+
+        for (int col = 0, streak = 0; col < board.length; col++, streak = 0) {
+            current = board[0][col];
+            for (int row = 0; row < board[0].length; row++) {
+                if (board[row][col] == current) {
+                    streak++;
+                    if (streak >= 2) sum += current * (streak == 2 ? 2 : 1);
+                } else {
+                    current = board[row][col];
+                    streak = 1;
+                }
+            }
+        }
+
+        return sum;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Player %s - %s points\n", id + 1, score);
     }
 }

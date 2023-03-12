@@ -19,15 +19,21 @@ public class Neighbors {
                 queuePlayer(player);
                 displayRoll(diceValue);
                 player.takeTurn(diceValue);
+                scanner.nextLine();
             }
         }
 
         for (Player player : players) {
-            player.displayBoard();
-            System.out.println(player.getID());
-            System.out.println(calculateColumn(player));
-            System.out.println(calculateRow(player));
+            player.calcScore();
         }
+        SearchAndSort.sort(players);
+
+        System.out.println("\n".repeat(30));
+        System.out.println("}---------------LEADERBOARD---------------{\n");
+        for (Player player : players) {
+            System.out.println(player);
+        }
+        System.out.println("}-----------------------------------------{");
     }
 
     private static void queuePlayer(Player player) {
@@ -49,41 +55,5 @@ public class Neighbors {
         System.out.println("[}---{]");
         System.out.printf("| %2s  |\n", diceValue);
         System.out.println("[}---{]\n");
-    }
-
-    public static int calculateRow(Player player) {
-        int[][] board = player.getBoard();
-        int previous = 0;
-        int sum = 0;
-        for (int[] ints : board) {
-            for (int j = 0; j < board[0].length; j++) {
-                if (ints[j] == previous) {
-                    previous += ints[j];
-                } else {
-                    sum += previous;
-                    previous = 0;
-                }
-            }
-            previous = 0;
-        }
-        return sum;
-    }
-
-    public static int calculateColumn(Player player) {
-        int[][] board = player.getBoard();
-        int previous = 0;
-        int sum = 0;
-        for (int j = 0; j < board[0].length; j++) {
-            for (int i = 0; i < board.length; i++) {
-                if (board[j][i] == previous) {
-                    previous += board[j][i];
-                } else {
-                    sum += previous;
-                    previous = 0;
-                }
-            }
-            previous = 0;
-        }
-        return sum;
     }
 }
